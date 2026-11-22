@@ -1,0 +1,59 @@
+<!-- 版本：2026-11-22 #1 16:20 前端拆檔（HTML／CSS／JS，fetch 取代 google.script.run） -->
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="referrer" content="no-referrer">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com; font-src https://cdnjs.cloudflare.com; img-src 'self' data: https:; connect-src https://script.google.com https://script.googleusercontent.com; base-uri 'none'; form-action 'none'">
+<title>小賴助理</title>
+<link rel="icon" type="image/png" href="data:image/png;base64,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">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<!-- 圖示：綠色圓角方塊 + 對話框 + 星光 (= LINE 對話 + AI)，無印風格的簡單線面 -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="logo" viewBox="0 0 48 48">
+    <rect width="48" height="48" rx="12" style="fill:var(--brand)"/>
+    <path d="M13 13.5h22a4.5 4.5 0 0 1 4.5 4.5v11a4.5 4.5 0 0 1-4.5 4.5H26.5L20 39.5v-6h-7A4.5 4.5 0 0 1 8.5 29V18A4.5 4.5 0 0 1 13 13.5z" fill="#fff"/>
+    <path d="M24 17.2l1.9 4.8 4.8 1.9-4.8 1.9L24 30.6l-1.9-4.8-4.8-1.9 4.8-1.9z" style="fill:var(--brand)"/>
+  </symbol>
+</svg>
+
+<!-- 登入 -->
+<div id="login" class="login hidden">
+  <div class="card">
+    <svg class="logo" viewBox="0 0 48 48" aria-hidden="true"><use href="#logo"/></svg>
+    <h1>小賴助理</h1>
+    <input id="pw" type="password" autocomplete="current-password" placeholder="密碼" aria-label="密碼">
+    <button id="loginBtn" class="btn">登入</button>
+    <div id="loginErr" class="err" role="alert"></div>
+  </div>
+</div>
+
+<!-- 主畫面 -->
+<div id="app" class="wrap hidden">
+  <header class="card top">
+    <div class="brand">
+      <svg class="logo" viewBox="0 0 48 48" aria-hidden="true"><use href="#logo"/></svg>
+      <h1>小賴助理</h1>
+    </div>
+    <nav id="tabs" class="tabs" aria-label="分頁"></nav>
+    <div class="acts">
+      <button id="gsBtn" class="ibtn" title="搜尋全部資料" aria-label="搜尋全部資料"><i class="fa-solid fa-magnifying-glass"></i></button>
+      <button id="refreshBtn" class="ibtn" title="重新整理" aria-label="重新整理"><i class="fa-solid fa-rotate"></i></button>
+    </div>
+  </header>
+  <main id="view" class="page"></main>
+</div>
+
+<div id="modal" class="ov hidden"></div>
+<div id="modal2" class="ov top2 hidden"></div>
+<div id="toast" class="toast hidden" role="status"></div>
+
+
+<script src="config.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
