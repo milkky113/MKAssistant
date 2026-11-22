@@ -1,4 +1,4 @@
-/* 版本：2026-11-22 #1 16:20 前端拆檔（HTML／CSS／JS，fetch 取代 google.script.run） */
+/* 版本：2026-11-22 #2 17:05 前端拆檔（HTML／CSS／JS，改用 fetch 呼叫後端） */
 /* ===== 色彩 token：淺色 / 深色 (改配色只動這裡)。綠色 = 沉穩 + LINE 的綠 ===== */
 :root{
   --bg:#f5f4ef; --card:#ffffff; --ink:#2b2926; --sub:#6b655b; --line:#e6e2d8; --soft:#f0ede4;

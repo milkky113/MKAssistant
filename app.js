@@ -1,4 +1,4 @@
-// 版本：2026-11-22 #1 16:20 前端拆檔（HTML／CSS／JS，fetch 取代 google.script.run）
+// 版本：2026-11-22 #2 17:05 前端拆檔（HTML／CSS／JS，改用 fetch 呼叫後端）
 (function () {
   'use strict';
 
