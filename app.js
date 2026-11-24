@@ -1,4 +1,4 @@
-// 版本：2026-11-22 #2 17:05 前端拆檔（HTML／CSS／JS，改用 fetch 呼叫後端）
+// 版本：2026-11-24 #1 06:35 token 改存 localStorage（鍵 xiaolai_tk）、接收順延換發的新 token
 (function () {
   'use strict';
 
@@ -26,6 +26,7 @@
   }
   function icon(cls) { return h('i', { 'class': cls, 'aria-hidden': 'true' }); }
   function clear(el) { while (el.firstChild) el.removeChild(el.firstChild); }
+  function tkStore(v) { try { if (v === undefined) return localStorage.getItem('xiaolai_tk'); if (v) localStorage.setItem('xiaolai_tk', v); else localStorage.removeItem('xiaolai_tk'); } catch (e) {} return null; }
   function store(k, v) { try { if (v === undefined) return sessionStorage.getItem(k); sessionStorage.setItem(k, v); } catch (e) {} return null; }
   function pref(k, v) { try { if (v === undefined) return localStorage.getItem(k); localStorage.setItem(k, v); } catch (e) {} return null; }
   function isMobile() { return !!(window.matchMedia && window.matchMedia('(max-width:860px)').matches); }
@@ -103,6 +104,7 @@
   function api(action, params) {
     return post({ dash: 'api', token: S.token, action: action, params: params || {} }).then(function (r) {
       if (r && r.auth === false) { showLogin('登入已逾時，請重新輸入密碼'); throw new Error('auth'); }
+      if (r && r.tk) { S.token = r.tk; tkStore(r.tk); }   /* 操作順延：後端換發新 token */
       if (!r || !r.ok) throw new Error((r && r.error) || '未知錯誤');
       return r.data;
     });
@@ -161,7 +163,7 @@
   }, { passive: true });
   function showLogin(msg) {
     setFab(null); removeTopBtn();
-    S.token = ''; store('tk', ''); resetCache(); S.files = { tree: null, cur: '', items: [], next: '', name: '' }; closeModal(); closeModal2();
+    S.token = ''; tkStore(''); resetCache(); S.files = { tree: null, cur: '', items: [], next: '', name: '' }; closeModal(); closeModal2();
     $('#app').classList.add('hidden'); $('#login').classList.remove('hidden');
     $('#loginErr').textContent = msg || ''; $('#pw').value = ''; $('#pw').focus();
   }
@@ -178,7 +180,7 @@
     var b = $('#loginBtn'); b.disabled = true; $('#loginErr').textContent = '';
     post({ dash: 'login', pw: pw }).then(function (r) {
       b.disabled = false;
-      if (r && r.ok) { S.token = r.token; store('tk', r.token); showApp(); }
+      if (r && r.ok) { S.token = r.token; tkStore(r.token); showApp(); }
       else { $('#loginErr').textContent = (r && r.error) || '登入失敗'; $('#pw').value = ''; }
     }, function (e) { b.disabled = false; $('#loginErr').textContent = e.message; });
   }
@@ -1223,7 +1225,7 @@
 
   initTheme();
 
-  var tk = store('tk'), tab = store('tab');
+  var tk = tkStore(), tab = store('tab');
   if (tab && TABS.some(function (t) { return t.id === tab; })) S.tab = tab;
   if (tk) {   // 重新整理頁面時沿用登入狀態；token 失效會自動回到登入畫面
     S.token = tk; showApp();
